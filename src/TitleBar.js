@@ -9,9 +9,11 @@ class TitleBar extends Component {
 
     render() {
         return (
-            <Navbar bg="dark" className="titleBar">
+            <div className="titlebarContainer">
+            <Navbar className="titleBar">
                 <Navbar.Brand> <h1 className="rainbow_text_animated">Mellobingo </h1> </Navbar.Brand>
             </Navbar>
+            </div>
         );
     }
 }

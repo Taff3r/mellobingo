@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import {Component} from 'react';
-import {ListGroup, Container, Row, Col, Button} from 'react-bootstrap';
+import {ListGroup, Container, Row, Col, Button, Form} from 'react-bootstrap';
 import DEFAULT_ALTERNATIVES from './default-alternatives.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import COLORS from './Colors.js';
@@ -28,17 +28,16 @@ class Game extends Component {
         for (let r = 0; r < nR; ++r) {
             let inner = []
             for(let c = 0; c < nC; ++c) {
-               inner.push("EMPTY"); 
+               inner.push("TOM"); 
             }
             b.push(inner);
         }
         return b;
     }
     setFocused(event) {
-        console.log("hello there");
         console.log(event.target);
         if(this.state.currFocus) {
-            this.state.currFocus.style.background = "";
+            this.state.currFocus.style.background = '';
         }
         event.target.style.background = COLORS['green'];
         console.log(event.target.id);
@@ -66,6 +65,7 @@ class Game extends Component {
     lockBoard() {
         this.setState({...this.state, locked: true});
     }
+
     handleSubmit(event) {
         event.preventDefault();
         if(this.state.currentInput !== '') {
@@ -81,10 +81,12 @@ class Game extends Component {
 
 
     makeCard(txt) {
-        return <ListGroup.Item id={txt} onClick={(txt) => this.setFocused(txt)}> {txt} </ListGroup.Item>
+        return <ListGroup.Item id={txt} onClick={(txt) => this.setFocused(txt)}> {txt} </ListGroup.Item>;
     }
 
     makeBoardCard(txt, r, c) {
+        if (txt === '')
+            txt = 'TOM';
         return <ListGroup.Item className="boardCard" id={r.toString() + " " + c.toString() } onClick={(e) => this.setSelected(e)}> {txt} </ListGroup.Item>
     }
 
@@ -102,7 +104,7 @@ class Game extends Component {
         for (let i = 0; i < 5; ++i) {
             let inner = [];
             for (let k = 0; k < 5; k++) {
-                inner.push(<Col> {this.makeBoardCard(this.state.board[i][k], i, k)} </Col>);    
+                inner.push(<Col className="coloumn"> {this.makeBoardCard(this.state.board[i][k], i, k)} </Col>);    
             }
 
             builder.push(<Row> {inner} </Row>);
@@ -112,24 +114,27 @@ class Game extends Component {
     render() {
         return (
             <div className="test">
-                <form onSubmit={this.handleSubmit}>
+                <form className="addCardForm" onSubmit={this.handleSubmit}>
                     <label>
-                        <h1> Ny bingobricka: </h1>
-                        <input type="text" onChange={this.handleChange}/>
+                        <h1> Skapa ny bingobricka </h1>
                     </label>
-                    <input value="Skapa bricka" type="submit"/>
+
+                    <input className="submitField" type="text" onChange={this.handleChange}/>
+                    <input className="submitButton" value="Skapa bricka" type="submit"/>
                 </form>
-            <ListGroup className="cardAlternatives">
+            <div className="cardContainer">
+            <ListGroup variant="flush"className="cardAlternatives">
                 {this.state.currentItems}
             </ListGroup> 
-            <div className="board">
-                <Container>
+            </div>
+            <div className="boardContainer">
+                <Container maxWidth="sm"> 
                     {this.renderBoard()}
                 </Container>
             </div>
 
-            <div className="butt">
-                <Button variant="primary" onClick={this.lockBoard}> LOCK BOARD </Button>
+            <div>
+                <button className="butt" onClick={this.lockBoard}> SPELA </button>
             </div>
             </div>
         );
