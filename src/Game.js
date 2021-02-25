@@ -107,7 +107,7 @@ class Game extends Component {
                 inner.push(<Col className="coloumn"> {this.makeBoardCard(this.state.board[i][k], i, k)} </Col>);    
             }
 
-            builder.push(<Row sm="5"> {inner} </Row>);
+            builder.push(<Row xs="5"> {inner} </Row>);
         }
         return builder;
     }
