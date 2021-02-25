@@ -87,7 +87,7 @@ class Game extends Component {
     makeBoardCard(txt, r, c) {
         if (txt === '')
             txt = 'TOM';
-        return <ListGroup.Item className="boardCard" id={r.toString() + " " + c.toString() } onClick={(e) => this.setSelected(e)}> {txt} </ListGroup.Item>
+        return  <ListGroup.Item className="boardCard" id={r.toString() + " " + c.toString() } onClick={(e) => this.setSelected(e)}> {txt} </ListGroup.Item>
     }
 
 
@@ -107,7 +107,7 @@ class Game extends Component {
                 inner.push(<Col className="coloumn"> {this.makeBoardCard(this.state.board[i][k], i, k)} </Col>);    
             }
 
-            builder.push(<Row> {inner} </Row>);
+            builder.push(<Row xs="5"> {inner} </Row>);
         }
         return builder;
     }
@@ -118,17 +118,16 @@ class Game extends Component {
                     <label>
                         <h1> Skapa ny bingobricka </h1>
                     </label>
-
                     <input className="submitField" type="text" onChange={this.handleChange}/>
                     <input className="submitButton" value="Skapa bricka" type="submit"/>
                 </form>
             <div className="cardContainer">
-            <ListGroup variant="flush"className="cardAlternatives">
+            <ListGroup variant="flush"className="cardAlternatives" fluid>
                 {this.state.currentItems}
             </ListGroup> 
             </div>
             <div className="boardContainer">
-                <Container maxWidth="sm"> 
+                <Container fluid > 
                     {this.renderBoard()}
                 </Container>
             </div>

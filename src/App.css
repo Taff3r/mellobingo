@@ -5,11 +5,9 @@
     text-align:left;
     text-overflow: ellipsis;
     overflow:hidden;
+    height:auto;
+    width:auto;
     white-space: nowrap;
-    border-radius: 5px 5px 5px 5px;
-    font-style:bold;
-    max-width:100%;
-    max-height:100%;
 }
 
 .coloumn {
@@ -32,8 +30,9 @@
     align-items:center;
     background: #343A40;
     width: 80%;
-    margin: 2%;
+    height:20%;
     margin-left: 10%;
+    margin-top: 1%;
     border:5px solid;
     border-image: repeating-linear-gradient(to bottom, #3DBFD9, #EC5FA4 , #F0592C, #FAAC40) 1 20%;
 }
@@ -50,9 +49,9 @@
 .cardAlternatives {
     max-height: 12vw;
     max-width:100%;
-    margin-bottom: 1%;
     overflow-y:auto;
     text-align:center;
+    display:flex;
 }
 
 .addCardForm {
