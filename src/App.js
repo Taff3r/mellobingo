@@ -9,6 +9,7 @@ class App extends Component {
     componentDidMount() {
         // Somewhat hacky-way of changing the entire background of the app
         document.body.style.backgroundColor = COLORS['background'];
+        document.title = "Mellobingo";
     }
     render() {
         return (
