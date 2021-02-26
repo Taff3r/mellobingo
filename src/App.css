@@ -10,6 +10,15 @@
     white-space: nowrap;
 }
 
+.bigBoardCard {
+    text-align:left;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    height:100px;
+    width:auto;
+    white-space: nowrap;
+}
+
 .coloumn {
    padding:1%; 
 }
@@ -26,6 +35,19 @@
     border:5px solid;
     border-image: repeating-linear-gradient(to bottom, #3DBFD9, #EC5FA4 , #F0592C, #FAAC40) 1 20%;
 }
+
+
+.bigBoardContainer {
+    align-items:center;
+    background: #343A40;
+    width: 90%;
+    height: 80%;
+    margin: 2%;
+    margin-left:5%;
+    border:5px solid;
+    border-image: repeating-linear-gradient(to bottom, #3DBFD9, #EC5FA4 , #F0592C, #FAAC40) 1 20%;
+}
+
 .cardContainer {
     align-items:center;
     background: #343A40;
@@ -44,6 +66,12 @@
     margin-left: 40%;
     height: 20%;
     border-image: repeating-linear-gradient(to bottom, #3DBFD9, #EC5FA4 , #F0592C, #FAAC40) 1 20%;
+}
+.msg {
+    align-items: center;
+    width: 40%;
+    margin-left: 35%;
+    height: 20%;
 }
 
 .cardAlternatives {

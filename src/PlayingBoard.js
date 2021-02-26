@@ -1,6 +1,7 @@
 import {Component} from 'react';
 import {ListGroup, Container, Row, Col} from 'react-bootstrap';
 import './App.css';
+import './Titlebar.css';
 import COLORS from './Colors.js';
 class PlayingBoard extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class PlayingBoard extends Component {
     }
 
     makeBoardCard(txt, r, c) {
-        return  <ListGroup.Item className="boardCard" id={r.toString() + " " + c.toString() } onClick={(e) => this.setSelected(e)}> {txt} </ListGroup.Item>
+        return  <ListGroup.Item className="bigBoardCard" id={r.toString() + " " + c.toString() } onClick={(e) => this.setSelected(e)}> {txt} </ListGroup.Item>
     }
     setSelected(event) {
         let coord = event.target.id.split(" ").map(str => parseInt(str));
@@ -41,20 +42,21 @@ class PlayingBoard extends Component {
         if (this.state.selectedItems[coord[0]][coord[1]] == 1) {
             event.target.style.background = "white";
             boardCpy[coord[0]][coord[1]] = 0;
+            this.setState({...this.state, selectedItems : boardCpy});
         } else {
             event.target.style.background = COLORS['pink'];
             boardCpy[coord[0]][coord[1]] = 1;
+            this.setState({...this.state, selectedItems : boardCpy});
+            this.checkBingo();
         }
-        this.setState({...this.state, selectedItems : boardCpy});
-        this.checkBingo();
+        
     }
 
     checkBingo() {
-        // Check left diag
         let lDiag = this.checkLDiag();
         let rDiag = this.checkRDiag();
-        let col  = this.checkCols();
         let row   = this.checkRows();
+        let col   = this.checkCols();
         let hasBingo = lDiag || rDiag || col || row;
         this.setState({...this.state, hasBingo : hasBingo});
     }
@@ -97,14 +99,16 @@ class PlayingBoard extends Component {
 
     displayBingo() {
         if (this.state.hasBingo) {
-            return ;
+            return (
+               <h1 className="rainbow_text_animated_fast_scroll"> BINGO </h1> 
+            );
         }
         return ;
     }
     render() {
         return (
             <div>
-                <div className="boardContainer">
+                <div className="bigBoardContainer">
                     <Container fluid> 
                         {this.renderBoard()}
                     </Container>
