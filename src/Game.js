@@ -46,7 +46,7 @@ class Game extends Component {
 
 
     setSelected(event) {
-        if (this.state.locked) {
+        if (this.state.isLocked) {
             if (event.target.style.background === COLORS['pink']) {
                 event.target.style.background = "white";
             } else {
@@ -63,7 +63,7 @@ class Game extends Component {
     }
     
     lockBoard() {
-        this.setState({...this.state, locked: true});
+        this.setState({...this.state, isLocked: true});
     }
 
     handleSubmit(event) {
@@ -112,7 +112,8 @@ class Game extends Component {
         return builder;
     }
     render() {
-        return (
+        if (!this.state.isLocked) {
+            return (
             <div className="test">
                 <form className="addCardForm" onSubmit={this.handleSubmit}>
                     <label>
@@ -127,7 +128,7 @@ class Game extends Component {
             </ListGroup> 
             </div>
             <div className="boardContainer">
-                <Container fluid > 
+                <Container fluid> 
                     {this.renderBoard()}
                 </Container>
             </div>
@@ -137,6 +138,13 @@ class Game extends Component {
             </div>
             </div>
         );
+        }
+        else {
+            console.log("ELSE");
+            return (
+                <p> BOARD IS LOCKED ! </p>
+            );
+        }
     }
 }
 
