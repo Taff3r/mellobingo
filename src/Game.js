@@ -5,7 +5,7 @@ import {ListGroup, Container, Row, Col, Button, Form} from 'react-bootstrap';
 import DEFAULT_ALTERNATIVES from './default-alternatives.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import COLORS from './Colors.js';
-
+import PlayingBoard from './PlayingBoard.js';
 class Game extends Component {
     constructor(props) {
         super(props);
@@ -35,12 +35,10 @@ class Game extends Component {
         return b;
     }
     setFocused(event) {
-        console.log(event.target);
         if(this.state.currFocus) {
             this.state.currFocus.style.background = '';
         }
         event.target.style.background = COLORS['green'];
-        console.log(event.target.id);
         this.setState({...this.state, currFocus: event.target, focusedText: event.target.id});
     }
 
@@ -69,7 +67,6 @@ class Game extends Component {
     handleSubmit(event) {
         event.preventDefault();
         if(this.state.currentInput !== '') {
-            console.log(this.state.currentInput);
             this.updateCards(this.state.currentInput);
         }
         event.target.reset(); // Reset form input
@@ -140,9 +137,8 @@ class Game extends Component {
         );
         }
         else {
-            console.log("ELSE");
             return (
-                <p> BOARD IS LOCKED ! </p>
+                <PlayingBoard board={this.state.board}/> 
             );
         }
     }
