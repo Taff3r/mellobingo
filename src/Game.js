@@ -19,8 +19,15 @@ class Game extends Component {
         this.lockBoard = this.lockBoard.bind(this);
 
         let board = this.defaultBoard(5,5);
-        console.log(board);
-        this.state = {isLocked: false, currFocus : "", focusedText : "", currentInput: "", board: board, currentItems: ret};
+        this.state = {
+            invalidBoard: false, 
+            isLocked: false, 
+            currFocus : "", 
+            focusedText : "", 
+            currentInput: "", 
+            board: board,
+            currentItems: ret
+        };
     }
     
     defaultBoard(nR, nC) {
@@ -61,6 +68,11 @@ class Game extends Component {
     }
     
     lockBoard() {
+        for (let i = 0; i < 5; ++i)
+            if (this.state.board[i].includes("TOM")) {
+                this.setState({...this.state, invalidBoard:true});
+                return;
+            }
         this.setState({...this.state, isLocked: true});
     }
 
@@ -108,6 +120,15 @@ class Game extends Component {
         }
         return builder;
     }
+
+    validBoardMessage() {
+        if (!this.state.invalidBoard) {
+            return;
+        }
+        return (
+            <h2 className="msg"> Du har fortfarande tomma brickor! </h2>
+        );
+    }
     render() {
         if (!this.state.isLocked) {
             return (
@@ -131,6 +152,7 @@ class Game extends Component {
             </div>
 
             <div>
+                {this.validBoardMessage()}
                 <button className="butt" onClick={this.lockBoard}> SPELA </button>
             </div>
             </div>
