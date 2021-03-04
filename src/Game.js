@@ -6,6 +6,7 @@ import DEFAULT_ALTERNATIVES from './default-alternatives.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import COLORS from './Colors.js';
 import PlayingBoard from './PlayingBoard.js';
+import {sanitize, linesToJson, cardsToText} from "./FileUtil.js";
 class Game extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +18,9 @@ class Game extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.lockBoard = this.lockBoard.bind(this);
+        this.importFile = this.importFile.bind(this);
+        this.selectFile = this.selectFile.bind(this);
+        this.exportFile = this.exportFile.bind(this);
 
         let board = this.defaultBoard(5,5);
         this.state = {
@@ -26,7 +30,8 @@ class Game extends Component {
             focusedText : "", 
             currentInput: "", 
             board: board,
-            currentItems: ret
+            currentItems: ret,
+            selectedFile: null,
         };
     }
     
@@ -105,6 +110,7 @@ class Game extends Component {
             ...this.state, 
             currentInput: '',
             currentItems: [this.makeCard(newCard), ... this.state.currentItems],
+            focusedText: newCard // auto set the new created card as the focused one
         });
     }
 
@@ -129,6 +135,34 @@ class Game extends Component {
             <h2 className="msg"> Du har fortfarande tomma brickor! </h2>
         );
     }
+
+    selectFile(event) {
+        let file = event.target.files[0];
+        this.setState({...this.state, selectedFile: file}); 
+    }
+
+    async importFile() {
+        if (this.state.selectedFile === null)
+            console.log("No file selected!");
+
+        let fileText = await this.state.selectedFile.text();
+        let listOfStrings = linesToJson(fileText);
+        let cards = listOfStrings.map(line => this.makeCard(line));
+        let appended = cards.concat(this.state.currentItems);
+        this.setState({...this.state, currentItems: appended});
+    }
+
+    async exportFile() {
+        const asText = cardsToText(this.state.currentItems);
+        const blob = new Blob([asText], {type: 'text/plain'});
+        const fileDownloadUrl = URL.createObjectURL(blob);
+        let element = document.createElement("a");
+        element.href = fileDownloadUrl;
+        element.download = "mellobingo-brickor.txt";
+        document.body.appendChild(element);
+        element.click();
+    }
+
     render() {
         if (!this.state.isLocked) {
             return (
@@ -140,8 +174,13 @@ class Game extends Component {
                     <input className="submitField" type="text" onChange={this.handleChange}/>
                     <input className="submitButton" value="Skapa bricka" type="submit"/>
                 </form>
+                <div className="fileOptions">
+                    <input className="fileSelect" type="file" name="import" onChange={this.selectFile}/>
+                    <button className="submitButton" onClick={this.importFile}> Importa brickor </button>
+                    <button className="submitButton" onClick={this.exportFile}> Exportera brickor </button>
+                </div>
             <div className="cardContainer">
-            <ListGroup variant="flush"className="cardAlternatives" fluid>
+            <ListGroup variant="flush" className="cardAlternatives" fluid>
                 {this.state.currentItems}
             </ListGroup> 
             </div>

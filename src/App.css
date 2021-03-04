@@ -101,3 +101,9 @@
     border: 2px solid;
     border-image: repeating-linear-gradient(to bottom, #3DBFD9, #EC5FA4 , #F0592C, #FAAC40) 1 20%;
 }
+.fileOptions {
+    margin-left:35%;
+}
+.fileSelect {
+    margin-right:-1%;
+}
